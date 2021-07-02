@@ -1,0 +1,1 @@
+INSERT INTO users (name, last_name) VALUES ("Matilde", "Tapia");
