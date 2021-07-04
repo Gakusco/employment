@@ -1,5 +1,5 @@
 INSERT INTO roles (id, `role`) VALUES (1, "ROLE_SUPERVISOR"), (2, "ROLE_POSTULANT");
-INSERT INTO credentials (id, email, password) VALUES (1, "usuariouno", "12345"), (2, "usuariodos", "12345");
+INSERT INTO credentials (id, username, password, enabled) VALUES (1, "supervisor", "$2a$10$sU5v1QsfyRaB91Czc1hRMOohZrE5zVFJEi90i4y/wrRgWgXxzX52y", true), (2, "postulante", "$2a$10$tlKwRbWmWt49lgVkvza5tu.8NX9WHVfa3RrjNZ6SliLyOlRbjEMNG", true);
 INSERT INTO credencial_roles (id_credencial, id_role) VALUES (1, 1), (2, 2);
 
 INSERT INTO users (id, name, last_name) VALUES (1, "max", "nadie");

@@ -9,6 +9,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -33,6 +34,9 @@ public class AuthController {
 	@Autowired
 	private RoleService roleService;
 
+	@Autowired
+	private BCryptPasswordEncoder passwordEncoder;
+
 	@PostMapping("/register")
 	public ResponseEntity<?> register(@Valid @RequestBody Postulant postulant, BindingResult result) {
 		HashMap<String, List<String>> response = new HashMap<>();
@@ -45,6 +49,8 @@ public class AuthController {
 		try {
 			roleService.findById(Constants.ROLE_POSTULANT)
 					.ifPresent(role -> postulant.getCredential().getRoles().add(role));
+			postulant.getCredential().setEnabled(true);
+			postulant.getCredential().setPassword(passwordEncoder.encode(postulant.getCredential().getPassword()));
 			return new ResponseEntity<>(postulantService.save(postulant), HttpStatus.CREATED);
 		} catch (EmploymentException error) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
