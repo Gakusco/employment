@@ -11,6 +11,7 @@ import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
@@ -34,6 +35,7 @@ public abstract class User {
 	@Size(min = 2, max = 20)
 	private String lastName;
 
+	@Valid
 	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
 	@JoinColumn(name = "id_credencial")
 	private Credential credential;

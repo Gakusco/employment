@@ -1,15 +1,15 @@
 INSERT INTO roles (id, `role`) VALUES (1, "ROLE_SUPERVISOR"), (2, "ROLE_POSTULANT");
-INSERT INTO credentials (id, email, password) VALUES (1, "nadie@nadie.com", "12345"), (2, "nada@nada.com", "12345");
+INSERT INTO credentials (id, email, password) VALUES (1, "usuariouno", "12345"), (2, "usuariodos", "12345");
 INSERT INTO credencial_roles (id_credencial, id_role) VALUES (1, 1), (2, 2);
 
 INSERT INTO users (id, name, last_name) VALUES (1, "max", "nadie");
-INSERT INTO applicants (id, web, phone_number, email, run, date_of_birth, curriculum_vitae) VALUES (1, "www.asdfasdf.com", "+56934231234", "dummy@dummy.com", "19.234.123-2", "2000-02-20", "nada.pdf");
+INSERT INTO applicants (id, web, phone_number, run, email, date_of_birth, curriculum_vitae) VALUES (1, "www.asdfasdf.com", "+56934231234", "19.234.123-2", "nadie@nadie.com", "2000-02-20", "nada.pdf");
 INSERT INTO users (id, name, last_name) VALUES (2, "estel", "nadie");
-INSERT INTO applicants (id, web, phone_number, email, run, date_of_birth, curriculum_vitae) VALUES (2, "www.asdfasdf.com", "+56934231234", "dummy@dummy.com", "19.234.123-2", "2000-02-20", "nada.pdf");
-INSERT INTO users (id, name, last_name) VALUES (3, "nat", "nadie");
-INSERT INTO applicants (id, web, phone_number, email, run, date_of_birth, curriculum_vitae) VALUES (3, "www.asdfasdf.com", "+56934231234", "dummy@dummy.com", "19.234.123-2", "2000-02-20", "nada.pdf");
+INSERT INTO applicants (id, web, phone_number, run, email, date_of_birth, curriculum_vitae) VALUES (2, "www.asdfasdf.com", "+56934231234", "19.234.123-2", "nadie@nadie.com", "2000-02-20", "nada.pdf");
+INSERT INTO users (id, name, last_name) VALUES (3, email, "nat", "nadie");
+INSERT INTO applicants (id, web, phone_number, run, email, date_of_birth, curriculum_vitae) VALUES (3, "www.asdfasdf.com", "+56934231234", "19.234.123-2", "nadie@nadie.com", "2000-02-20", "nada.pdf");
 INSERT INTO users (id, name, last_name) VALUES (4, "ele", "nadie");
-INSERT INTO applicants (id, web, phone_number, email, run, date_of_birth, curriculum_vitae) VALUES (4, "www.asdfasdf.com", "+56934231234", "dummy@dummy.com", "19.234.123-2", "2000-02-20", "nada.pdf");
+INSERT INTO applicants (id, web, phone_number, run, email, date_of_birth, curriculum_vitae) VALUES (4, "www.asdfasdf.com", "+56934231234", "19.234.123-2", "nadie@nadie.com", "2000-02-20", "nada.pdf");
 
 INSERT INTO users (id, name, last_name) VALUES (5, "supervisor", "mark");
 INSERT INTO supervisors (id) VALUES (5);

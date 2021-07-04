@@ -1,6 +1,5 @@
 package com.employment.employbackend.controller;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -10,42 +9,45 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.employment.employbackend.exception.EmploymentException;
-import com.employment.employbackend.helper.Constants;
 import com.employment.employbackend.helper.ResponseValidate;
-import com.employment.employbackend.model.Postulant;
-import com.employment.employbackend.model.Role;
-import com.employment.employbackend.service.PostulantService;
-import com.employment.employbackend.service.RoleService;
+import com.employment.employbackend.model.Business;
+import com.employment.employbackend.service.BusinessService;
 
 @RestController
-@RequestMapping("/auth")
-public class AuthController {
+@RequestMapping("/business")
+public class BusinessController {
 
 	@Autowired
-	private PostulantService postulantService;
+	private BusinessService businessService;
 
-	@Autowired
-	private RoleService roleService;
+	@GetMapping("/list")
+	public ResponseEntity<HashMap<String, List<Business>>> findAll() {
+		HashMap<String, List<Business>> response = new HashMap<>();
+		List<Business> business = businessService.findAll();
+		if (!business.isEmpty()) {
+			response.put("businessList", business);
+			return new ResponseEntity<>(response, HttpStatus.OK);
+		}
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+	}
 
-	@PostMapping("/register")
-	public ResponseEntity<?> register(@Valid @RequestBody Postulant postulant, BindingResult result) {
+	@PostMapping("/add")
+	public ResponseEntity<?> create(@Valid @RequestBody Business business, BindingResult result) {
 		HashMap<String, List<String>> response = new HashMap<>();
 		if (result.hasErrors()) {
 			response.put(ResponseValidate.ERROR, ResponseValidate.resultErrorsToList(result));
 			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 		}
-		List<Role> roles = new ArrayList<>();
-		postulant.getCredential().setRoles(roles);
+
 		try {
-			roleService.findById(Constants.ROLE_POSTULANT)
-					.ifPresent(role -> postulant.getCredential().getRoles().add(role));
-			return new ResponseEntity<>(postulantService.save(postulant), HttpStatus.CREATED);
+			return new ResponseEntity<>(businessService.save(business), HttpStatus.CREATED);
 		} catch (EmploymentException error) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}

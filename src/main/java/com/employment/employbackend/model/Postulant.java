@@ -28,11 +28,11 @@ public class Postulant extends User implements Serializable {
 	@Pattern(regexp = "[+][\\d]{11}", message = "Formato: +56934231287")
 	private String phoneNumber;
 
-	@Pattern(regexp = "[a-zA-Z0-9.!%#&$'*+/^_-]{1,20}[@][a-zA-Z0-9-]{1,20}[.][a-z]{1,4}", message = "formato: jmartin@gmail.com")
-	private String email;
-
 	@Pattern(regexp = "[\\d]{1,2}[.][\\d]{3}[.][\\d]{3}[-][\\d|k|K]", message = "formato: 14.234.345-k")
 	private String run;
+
+	@Pattern(regexp = "[a-zA-Z0-9.!%#&$'*+/^_-]{1,20}[@][a-zA-Z0-9-]{1,20}[.][a-z]{1,4}", message = "formato: jmartin@gmail.com")
+	private String email;
 
 	@NotNull(message = "Debe ingresar su fecha de nacimiento")
 	@Past

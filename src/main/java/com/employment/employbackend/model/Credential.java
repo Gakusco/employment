@@ -13,7 +13,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.Pattern;
 
 import lombok.Data;
 
@@ -27,8 +26,7 @@ public class Credential implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
-	@Pattern(regexp = "[a-zA-Z0-9.!%#&$'*+/^_-]{1,20}[@][a-zA-Z0-9-]{1,20}[.][a-z]{1,4}", message = "formato: jmartin@gmail.com")
-	private String email;
+	private String username;
 
 	private String password;
 

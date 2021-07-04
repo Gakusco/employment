@@ -10,6 +10,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import lombok.Data;
 
 @Data
@@ -31,5 +33,8 @@ public class Business {
 	private String email;
 
 	@OneToMany(mappedBy = "business")
+	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler", "contractPeriod", "requirements", "salary",
+			"responsabilities", "descriptionOffer", "validDate", "initWorkingDayTime", "endWorkingDayTime", "position",
+			"vacancyNumbers", "business", "createdAt", "updatedAt" })
 	private List<JobOffer> jobOfferList;
 }
