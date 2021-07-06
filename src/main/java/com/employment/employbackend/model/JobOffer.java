@@ -15,6 +15,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Future;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
@@ -54,6 +55,7 @@ public class JobOffer extends CreatedAtUpdatedAt implements Serializable {
 	private String descriptionOffer;
 
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@Future
 	private LocalDate validDate;
 
 	@NotEmpty
