@@ -11,6 +11,7 @@ import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.stereotype.Component;
 
 import com.employment.employbackend.model.Credential;
+import com.employment.employbackend.model.Role;
 import com.employment.employbackend.service.CredentialService;
 
 @Component
@@ -23,7 +24,7 @@ public class InfoAditionalToken implements TokenEnhancer {
 	public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
 		Credential credential = credentialService.findByUsername(authentication.getName());
 		Map<String, Object> info = new HashMap<>();
-		info.put("role", credential.getRoles().stream().map(role -> role.getRole()));
+		info.put("role", credential.getRoles().stream().map(Role::getRole));
 		((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(info);
 		return accessToken;
 	}

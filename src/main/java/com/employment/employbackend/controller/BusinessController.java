@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -48,6 +49,20 @@ public class BusinessController {
 
 		try {
 			return new ResponseEntity<>(businessService.save(business), HttpStatus.CREATED);
+		} catch (EmploymentException error) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+	}
+
+	@PutMapping("/update")
+	public ResponseEntity<?> update(@Valid @RequestBody Business business, BindingResult result) {
+		HashMap<String, List<String>> response = new HashMap<>();
+		if (result.hasErrors()) {
+			response.put(ResponseValidate.ERROR, ResponseValidate.resultErrorsToList(result));
+			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+		}
+		try {
+			return new ResponseEntity<>(businessService.save(business), HttpStatus.ACCEPTED);
 		} catch (EmploymentException error) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}

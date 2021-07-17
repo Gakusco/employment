@@ -34,7 +34,7 @@ public class Credential implements Serializable {
 
 	private boolean enabled;
 
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinTable(name = "credencial_roles", joinColumns = {
 			@JoinColumn(name = "id_credencial") }, inverseJoinColumns = @JoinColumn(name = "id_role"))
 	private List<Role> roles;
