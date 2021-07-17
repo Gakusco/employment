@@ -15,6 +15,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Data;
 
 @Data
@@ -30,6 +32,7 @@ public class Credential implements Serializable {
 	@Column(unique = true)
 	private String username;
 
+	@JsonIgnore
 	private String password;
 
 	private boolean enabled;

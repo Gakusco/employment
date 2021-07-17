@@ -3,6 +3,7 @@ package com.employment.employbackend.controller;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -11,7 +12,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -52,6 +55,34 @@ public class AuthController {
 			postulant.getCredential().setEnabled(true);
 			postulant.getCredential().setPassword(passwordEncoder.encode(postulant.getCredential().getPassword()));
 			return new ResponseEntity<>(postulantService.save(postulant), HttpStatus.CREATED);
+		} catch (EmploymentException error) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+	}
+
+	@PutMapping("/update")
+	public ResponseEntity<?> update(@Valid @RequestBody Postulant postulant, BindingResult result) {
+		HashMap<String, List<String>> response = new HashMap<>();
+		if (result.hasErrors()) {
+			response.put(ResponseValidate.ERROR, ResponseValidate.resultErrorsToList(result));
+			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+		}
+		try {
+			return new ResponseEntity<>(postulantService.save(postulant), HttpStatus.ACCEPTED);
+		} catch (EmploymentException error) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+	}
+
+	@PutMapping("/toggle-enable/{postulantId}")
+	public ResponseEntity<?> delete(@PathVariable String postulantId) {
+		try {
+			Optional<Postulant> postulant = postulantService.findById(Integer.parseInt(postulantId));
+			if (postulant.isPresent()) {
+				postulant.get().getCredential().setEnabled(!postulant.get().getCredential().isEnabled());
+				return new ResponseEntity<>(postulantService.save(postulant.get()), HttpStatus.ACCEPTED);
+			}
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		} catch (EmploymentException error) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
