@@ -13,6 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -65,6 +66,40 @@ public class JobOfferController {
 			return new ResponseEntity<>(jobOfferService.save(jobOffer), HttpStatus.CREATED);
 		} catch (EmploymentException error) {
 			return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+		}
+	}
+
+	@PutMapping("/update")
+	public ResponseEntity<?> update(@Valid @RequestBody JobOffer jobOffer, BindingResult result) {
+		HashMap<String, List<String>> response = new HashMap<>();
+		if (result.hasErrors()) {
+			response.put(ResponseValidate.ERROR, ResponseValidate.resultErrorsToList(result));
+			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+		}
+		try {
+			Optional<JobOffer> jobOfferOld = jobOfferService.findById(jobOffer.getId());
+			if (jobOfferOld.isPresent()) {
+				jobOffer.setBusiness(jobOfferOld.get().getBusiness());
+				jobOffer.setCreatedAt(jobOfferOld.get().getCreatedAt());
+				return new ResponseEntity<>(jobOfferService.save(jobOffer), HttpStatus.ACCEPTED);
+			}
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		} catch (EmploymentException error) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+	}
+
+	@PutMapping("/toggle-enable/{jobOfferId}")
+	public ResponseEntity<?> delete(@PathVariable String jobOfferId) {
+		try {
+			Optional<JobOffer> jobOffer = jobOfferService.findById(Integer.parseInt(jobOfferId));
+			if (jobOffer.isPresent()) {
+				jobOffer.get().setEnabled(!jobOffer.get().isEnabled());
+				return new ResponseEntity<>(jobOfferService.save(jobOffer.get()), HttpStatus.ACCEPTED);
+			}
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		} catch (EmploymentException error) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 	}
 

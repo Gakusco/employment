@@ -70,6 +70,8 @@ public class JobOffer extends CreatedAtUpdatedAt implements Serializable {
 	@NotNull
 	private Integer vacancyNumbers;
 
+	private boolean enabled;
+
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinTable(name = "postulate", joinColumns = {
 			@JoinColumn(name = "id_job_offer") }, inverseJoinColumns = @JoinColumn(name = "id_postulant"))
