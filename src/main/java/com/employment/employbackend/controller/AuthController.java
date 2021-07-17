@@ -68,7 +68,14 @@ public class AuthController {
 			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 		}
 		try {
-			return new ResponseEntity<>(postulantService.save(postulant), HttpStatus.ACCEPTED);
+			Optional<Postulant> postulantOld = postulantService.findById(postulant.getId());
+			if (postulantOld.isPresent()) {
+				postulant.getCredential().setPassword(postulantOld.get().getCredential().getPassword());
+				postulant.getCredential().setRoles(postulantOld.get().getCredential().getRoles());
+				postulant.getCredential().setEnabled(postulantOld.get().getCredential().isEnabled());
+				return new ResponseEntity<>(postulantService.save(postulant), HttpStatus.ACCEPTED);
+			}
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		} catch (EmploymentException error) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
