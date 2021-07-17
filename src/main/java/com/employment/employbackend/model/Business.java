@@ -32,6 +32,8 @@ public class Business {
 	@NotEmpty
 	private String email;
 
+	private boolean enable;
+
 	@OneToMany(mappedBy = "business")
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler", "contractPeriod", "requirements", "salary",
 			"responsabilities", "descriptionOffer", "validDate", "initWorkingDayTime", "endWorkingDayTime", "position",

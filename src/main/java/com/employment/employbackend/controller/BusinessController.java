@@ -2,6 +2,7 @@ package com.employment.employbackend.controller;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -10,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -48,6 +50,7 @@ public class BusinessController {
 		}
 
 		try {
+			business.setEnable(true);
 			return new ResponseEntity<>(businessService.save(business), HttpStatus.CREATED);
 		} catch (EmploymentException error) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -67,4 +70,19 @@ public class BusinessController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 	}
+
+	@PutMapping("/toggle-enable/{businessId}")
+	public ResponseEntity<?> delete(@PathVariable String businessId) {
+		try {
+			Optional<Business> business = businessService.findById(Integer.parseInt(businessId));
+			if (business.isPresent()) {
+				business.get().setEnable(!business.get().isEnable());
+				return new ResponseEntity<>(businessService.save(business.get()), HttpStatus.ACCEPTED);
+			}
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		} catch (EmploymentException error) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+	}
+
 }

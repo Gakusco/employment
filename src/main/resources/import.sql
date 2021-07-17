@@ -14,7 +14,7 @@ INSERT INTO applicants (id, web, phone_number, run, email, date_of_birth, curric
 INSERT INTO users (id, name, last_name) VALUES (5, "supervisor", "mark");
 INSERT INTO supervisors (id) VALUES (5);
 
-INSERT INTO business (id, about_us, email, name) VALUES (1, "somos los mejores", "empresa@empresa.com", "La gran empresa"), (2, "somos los peores", "empresa@empresa.com", "La peor empresa");
+INSERT INTO business (id, about_us, email, name, enable) VALUES (1, "somos los mejores", "empresa@empresa.com", "La gran empresa", true), (2, "somos los peores", "empresa@empresa.com", "La peor empresa", true);
 
 INSERT INTO job_offers (id, contract_period, description_offer, position, requirements, responsabilities, salary, vacancy_numbers, valid_date, init_working_day_time, end_working_day_time, id_business) VALUES (1, "2 años", "Excelente ambiente laboral, ven a trabajar como programador", "Junior", "saber java", "actualizar el backend", 300000, 7, "2021-09-27", "09:00", "20:00", 1), (2, "3 años", "Excelente aprendizaje, ven a trabajar como devops", "Junior", "saber GCP", "subir a producción", 300000, 7, "2021-09-27", "09:00", "20:00", 1);
 
