@@ -65,7 +65,13 @@ public class BusinessController {
 			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 		}
 		try {
-			return new ResponseEntity<>(businessService.save(business), HttpStatus.ACCEPTED);
+			Optional<Business> businessOld = businessService.findById(business.getId());
+			if (businessOld.isPresent()) {
+				business.setEnable(businessOld.get().isEnable());
+				business.setJobOfferList(businessOld.get().getJobOfferList());
+				return new ResponseEntity<>(businessService.save(business), HttpStatus.ACCEPTED);
+			}
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		} catch (EmploymentException error) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
