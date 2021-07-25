@@ -18,6 +18,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.Future;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -58,9 +59,11 @@ public class JobOffer extends CreatedAtUpdatedAt implements Serializable {
 	@Future
 	private LocalDate validDate;
 
+	@Pattern(regexp = "^([01]\\d|2[0-3]):?([0-5]\\d)$", message = "debe coincider con el formato HH:MM")
 	@NotEmpty
 	private String initWorkingDayTime;
 
+	@Pattern(regexp = "^([01]\\d|2[0-3]):?([0-5]\\d)$", message = "debe coincider con el formato HH:MM")
 	@NotEmpty
 	private String endWorkingDayTime;
 

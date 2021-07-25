@@ -19,4 +19,9 @@ public class JobOfferServiceImpl extends CrudImpl<JobOffer, Integer> implements 
 		return repository.findOffersByPostulantId(postulantId);
 	}
 
+	@Override
+	public List<JobOffer> findJobOffersByIdBusiness(Integer idInteger) {
+		return repository.findJobOffersByIdBusiness(idInteger);
+	}
+
 }

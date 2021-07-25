@@ -27,8 +27,11 @@ import com.employment.employbackend.service.BusinessService;
 import com.employment.employbackend.service.JobOfferService;
 import com.employment.employbackend.service.PostulantService;
 
+import lombok.extern.slf4j.Slf4j;
+
 @RestController
 @RequestMapping("/job-offer")
+@Slf4j
 public class JobOfferController {
 
 	@Autowired
@@ -61,8 +64,10 @@ public class JobOfferController {
 		}
 
 		try {
-			businessService.findById(Integer.parseInt(businessId))
-					.ifPresent(business -> jobOffer.setBusiness(business));
+			businessService.findById(Integer.parseInt(businessId)).ifPresent(business -> {
+				jobOffer.setBusiness(business);
+				jobOffer.setEnabled(true);
+			});
 			return new ResponseEntity<>(jobOfferService.save(jobOffer), HttpStatus.CREATED);
 		} catch (EmploymentException error) {
 			return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
@@ -81,6 +86,7 @@ public class JobOfferController {
 			if (jobOfferOld.isPresent()) {
 				jobOffer.setBusiness(jobOfferOld.get().getBusiness());
 				jobOffer.setCreatedAt(jobOfferOld.get().getCreatedAt());
+				jobOffer.setEnabled(true);
 				return new ResponseEntity<>(jobOfferService.save(jobOffer), HttpStatus.ACCEPTED);
 			}
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -123,7 +129,7 @@ public class JobOfferController {
 		postulantService.findById(Integer.parseInt(postulantId))
 				.ifPresent(postulant -> savePostulate(postulant, jobOfferId, response, responseError));
 		if (response.containsKey(Constants.KEY_JOB_OFFER)) {
-			return new ResponseEntity<>(response.get(Constants.KEY_JOB_OFFER), HttpStatus.CREATED);
+			return new ResponseEntity<>(response, HttpStatus.CREATED);
 		} else if (responseError.containsKey(Constants.KEY_ERROR)) {
 			return new ResponseEntity<>(responseError, HttpStatus.OK);
 		}

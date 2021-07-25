@@ -22,13 +22,18 @@ import org.springframework.web.bind.annotation.RestController;
 import com.employment.employbackend.exception.EmploymentException;
 import com.employment.employbackend.helper.Constants;
 import com.employment.employbackend.helper.ResponseValidate;
+import com.employment.employbackend.model.Credential;
 import com.employment.employbackend.model.Postulant;
 import com.employment.employbackend.model.Role;
+import com.employment.employbackend.service.CredentialService;
 import com.employment.employbackend.service.PostulantService;
 import com.employment.employbackend.service.RoleService;
 
+import lombok.extern.slf4j.Slf4j;
+
 @RestController
 @RequestMapping("/auth")
+@Slf4j
 public class AuthController {
 
 	@Autowired
@@ -40,11 +45,19 @@ public class AuthController {
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
 
+	@Autowired
+	private CredentialService credentialService;
+
 	@PostMapping("/register")
 	public ResponseEntity<?> register(@Valid @RequestBody Postulant postulant, BindingResult result) {
 		HashMap<String, List<String>> response = new HashMap<>();
-		if (result.hasErrors()) {
-			response.put(ResponseValidate.ERROR, ResponseValidate.resultErrorsToList(result));
+		Credential credential = credentialService.findByUsername(postulant.getCredential().getUsername());
+		if (result.hasErrors() || credential != null) {
+			List<String> errList = ResponseValidate.resultErrorsToList(result);
+			if (credential != null) {
+				errList.add("El nombre de usuario ya existe");
+			}
+			response.put(ResponseValidate.ERROR, errList);
 			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 		}
 		List<Role> roles = new ArrayList<>();

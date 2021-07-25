@@ -4,14 +4,8 @@ INSERT INTO credencial_roles (id_credencial, id_role) VALUES (1, 1), (2, 2);
 
 INSERT INTO users (id, name, last_name, id_credencial) VALUES (1, "Milo", "Chil", 2);
 INSERT INTO applicants (id, web, phone_number, run, email, date_of_birth, curriculum_vitae) VALUES (1, "www.paginaweb.com", "+56934231234", "19.234.123-2", "milo@chil.com", "2000-02-20", "nada.pdf");
-INSERT INTO users (id, name, last_name) VALUES (2, "Marta", "Rosa");
-INSERT INTO applicants (id, web, phone_number, run, email, date_of_birth, curriculum_vitae) VALUES (2, "www.paginaweb.com", "+56934231234", "19.234.123-2", "marta@rosa.com", "2000-02-20", "nada.pdf");
-INSERT INTO users (id, name, last_name) VALUES (3, "Natalia", "Estrella");
-INSERT INTO applicants (id, web, phone_number, run, email, date_of_birth, curriculum_vitae) VALUES (3, "www.paginaweb.com", "+56934231234", "19.234.123-2", "natalia@estrella.com", "2000-02-20", "nada.pdf");
-INSERT INTO users (id, name, last_name) VALUES (4, "Roxy", "Rus");
-INSERT INTO applicants (id, web, phone_number, run, email, date_of_birth, curriculum_vitae) VALUES (4, "www.paginaweb.com", "+56934231234", "19.234.123-2", "roxy@rus.com", "2000-02-20", "nada.pdf");
 
-INSERT INTO users (id, name, last_name) VALUES (5, "supervisor", "mark");
+INSERT INTO users (id, name, last_name, id_credencial) VALUES (5, "supervisor", "mark", 1);
 INSERT INTO supervisors (id) VALUES (5);
 
 INSERT INTO business (id, about_us, email, name, enable) VALUES (1, "somos los mejores", "empresa@empresa.com", "La gran empresa", true), (2, "somos los peores", "empresa@empresa.com", "La peor empresa", true);

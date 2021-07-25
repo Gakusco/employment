@@ -13,4 +13,5 @@ public interface BusinessRepository extends BaseRepository<Business, Integer> {
 			+ "FROM job_offers JOIN business on job_offers.id_business = business.id\r\n"
 			+ "group by id_business", nativeQuery = true)
 	List<QuantityJobOfferByBusiness> getQuantityJobOfferByBusiness();
+
 }

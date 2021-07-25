@@ -41,7 +41,7 @@ public class PostulantController {
 	public ResponseEntity<HashMap<String, List<JobOffer>>> findAllApplications(@PathVariable String postulantId) {
 		HashMap<String, List<JobOffer>> response = new HashMap<>();
 		List<JobOffer> jobOfferList = jobOfferService.findOffersByPostulantId(Integer.parseInt(postulantId));
-		response.put("postulantList", jobOfferList);
+		response.put("offerList", jobOfferList);
 		if (!jobOfferList.isEmpty())
 			return new ResponseEntity<>(response, HttpStatus.OK);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);

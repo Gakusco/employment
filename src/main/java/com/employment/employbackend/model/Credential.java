@@ -15,8 +15,6 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import lombok.Data;
 
 @Data
@@ -32,7 +30,6 @@ public class Credential implements Serializable {
 	@Column(unique = true)
 	private String username;
 
-	@JsonIgnore
 	private String password;
 
 	private boolean enabled;
@@ -41,4 +38,5 @@ public class Credential implements Serializable {
 	@JoinTable(name = "credencial_roles", joinColumns = {
 			@JoinColumn(name = "id_credencial") }, inverseJoinColumns = @JoinColumn(name = "id_role"))
 	private List<Role> roles;
+
 }

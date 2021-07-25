@@ -21,7 +21,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.employment.employbackend.exception.EmploymentException;
 import com.employment.employbackend.helper.ResponseValidate;
 import com.employment.employbackend.model.Business;
+import com.employment.employbackend.model.JobOffer;
 import com.employment.employbackend.service.BusinessService;
+import com.employment.employbackend.service.JobOfferService;
 
 @RestController
 @RequestMapping("/business")
@@ -30,12 +32,26 @@ public class BusinessController {
 	@Autowired
 	private BusinessService businessService;
 
+	@Autowired
+	private JobOfferService jobOfferService;
+
 	@GetMapping("/list")
 	public ResponseEntity<HashMap<String, List<Business>>> findAll() {
 		HashMap<String, List<Business>> response = new HashMap<>();
 		List<Business> business = businessService.findAll();
 		if (!business.isEmpty()) {
 			response.put("businessList", business);
+			return new ResponseEntity<>(response, HttpStatus.OK);
+		}
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+	}
+
+	@GetMapping("/job-offers/{businessId}")
+	public ResponseEntity<HashMap<String, List<JobOffer>>> findAllByBusinessId(@PathVariable String businessId) {
+		HashMap<String, List<JobOffer>> response = new HashMap<>();
+		List<JobOffer> jobOffer = jobOfferService.findJobOffersByIdBusiness(Integer.parseInt(businessId));
+		if (!jobOffer.isEmpty()) {
+			response.put("jobOfferList", jobOffer);
 			return new ResponseEntity<>(response, HttpStatus.OK);
 		}
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);

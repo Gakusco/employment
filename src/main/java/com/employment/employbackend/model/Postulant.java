@@ -22,16 +22,17 @@ import lombok.EqualsAndHashCode;
 public class Postulant extends User implements Serializable {
 	private static final long serialVersionUID = 2392020139154313085L;
 
-	@NotEmpty
 	private String web;
 
 	@Pattern(regexp = "[+][\\d]{11}", message = "Formato: +56934231287")
 	private String phoneNumber;
 
 	@Pattern(regexp = "[\\d]{1,2}[.][\\d]{3}[.][\\d]{3}[-][\\d|k|K]", message = "formato: 14.234.345-k")
+	@NotEmpty
 	private String run;
 
 	@Pattern(regexp = "[a-zA-Z0-9.!%#&$'*+/^_-]{1,20}[@][a-zA-Z0-9-]{1,20}[.][a-z]{1,4}", message = "formato: jmartin@gmail.com")
+	@NotEmpty
 	private String email;
 
 	@NotNull(message = "Debe ingresar su fecha de nacimiento")
