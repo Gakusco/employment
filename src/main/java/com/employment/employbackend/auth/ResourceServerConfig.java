@@ -23,7 +23,8 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests().antMatchers("/auth/register", "/").permitAll().antMatchers("/statistics/**")
+		http.authorizeRequests().antMatchers("/auth/register", "/").permitAll().antMatchers("/auth/download/**")
+				.permitAll().antMatchers("/auth/upload").permitAll().antMatchers("/statistics/**")
 				.hasRole(ROLE_SUPERVISOR).antMatchers("/business/**").hasRole(ROLE_SUPERVISOR)
 				.antMatchers("/job-offer/postulate/{postulantId}/{jobOfferId}")
 				.hasAnyRole(ROLE_SUPERVISOR, ROLE_POSTULANT).antMatchers("/job-offer/list")

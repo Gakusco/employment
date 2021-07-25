@@ -27,11 +27,8 @@ import com.employment.employbackend.service.BusinessService;
 import com.employment.employbackend.service.JobOfferService;
 import com.employment.employbackend.service.PostulantService;
 
-import lombok.extern.slf4j.Slf4j;
-
 @RestController
 @RequestMapping("/job-offer")
-@Slf4j
 public class JobOfferController {
 
 	@Autowired

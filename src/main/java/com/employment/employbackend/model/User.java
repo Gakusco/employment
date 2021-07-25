@@ -1,5 +1,7 @@
 package com.employment.employbackend.model;
 
+import java.io.Serializable;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -21,7 +23,9 @@ import lombok.Data;
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "users")
-public abstract class User {
+public abstract class User implements Serializable {
+
+	private static final long serialVersionUID = 7186949206110017467L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

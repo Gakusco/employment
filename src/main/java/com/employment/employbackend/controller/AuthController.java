@@ -1,23 +1,35 @@
 package com.employment.employbackend.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.employment.employbackend.exception.EmploymentException;
 import com.employment.employbackend.helper.Constants;
@@ -26,6 +38,7 @@ import com.employment.employbackend.model.Credential;
 import com.employment.employbackend.model.Postulant;
 import com.employment.employbackend.model.Role;
 import com.employment.employbackend.service.CredentialService;
+import com.employment.employbackend.service.UploadFileService;
 import com.employment.employbackend.service.PostulantService;
 import com.employment.employbackend.service.RoleService;
 
@@ -47,6 +60,9 @@ public class AuthController {
 
 	@Autowired
 	private CredentialService credentialService;
+
+	@Autowired
+	private UploadFileService fileUploadFileService;
 
 	@PostMapping("/register")
 	public ResponseEntity<?> register(@Valid @RequestBody Postulant postulant, BindingResult result) {
@@ -71,6 +87,48 @@ public class AuthController {
 		} catch (EmploymentException error) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
+	}
+
+	@PostMapping("/upload")
+	public ResponseEntity<?> uploadFile(@RequestParam("file") MultipartFile file) {
+		HashMap<String, List<String>> response = new HashMap<>();
+		if (file.isEmpty()) {
+			List<String> errors = new ArrayList<>();
+			errors.add("Debe subir un archivo");
+			response.put("error", errors);
+			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+		}
+		try {
+			fileUploadFileService.saveFile(file);
+		} catch (Exception e) {
+			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+		}
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+
+	@GetMapping("/download/{fileName}")
+	public ResponseEntity<?> download(@PathVariable("fileName") String fileName, HttpServletResponse response) {
+		if (fileName.contains(".pdf")) {
+			File file = new File(UploadFileService.UPLOAD_FOLDER + fileName);
+
+			HttpHeaders header = new HttpHeaders();
+			header.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=curriculum.pdf");
+			header.add("Cache-Control", "no-cache, no-store, must-revalidate");
+			header.add("Pragma", "no-cache");
+			header.add("Expires", "0");
+
+			Path path = Paths.get(file.getAbsolutePath());
+			ByteArrayResource resource;
+			try {
+				resource = new ByteArrayResource(Files.readAllBytes(path));
+				return ResponseEntity.ok().headers(header).contentLength(file.length())
+						.contentType(MediaType.parseMediaType("application/pdf")).body(resource);
+			} catch (IOException e) {
+				return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+			}
+		}
+		return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+
 	}
 
 	@PutMapping("/update")
