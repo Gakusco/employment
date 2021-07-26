@@ -12,7 +12,10 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
 public class MailService {
 
 	@Autowired
@@ -41,9 +44,12 @@ public class MailService {
 		helper.setText(body);
 
 		for (int i = 0; i < fileToAttach.length; i++) {
-			FileSystemResource file = new FileSystemResource(
-					new File(UploadFileService.UPLOAD_FOLDER + fileToAttach[i]));
-			helper.addAttachment(("curriculum").concat("-" + i).concat(".pdf"), file);
+			if (fileToAttach[i].contains(".pdf")) {
+				FileSystemResource file = new FileSystemResource(
+						new File(UploadFileService.UPLOAD_FOLDER + fileToAttach[i]));
+				helper.addAttachment(("curriculum").concat("-" + i).concat(".pdf"), file);
+			}
+
 		}
 
 		mailSender.send(message);
