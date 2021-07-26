@@ -13,7 +13,7 @@ INSERT INTO supervisors (id) VALUES (5);
 
 INSERT INTO business (id, about_us, email, name, enable) VALUES (1, "somos los mejores", "jcarlosbkn@gmail.com", "La gran empresa", true), (2, "somos los peores", "jcarlosbkn@gmail.com", "La peor empresa", true);
 
-INSERT INTO job_offers (id, contract_period, description_offer, position, requirements, responsabilities, salary, vacancy_numbers, valid_date, init_working_day_time, end_working_day_time, id_business, enabled) VALUES (1, "2 años", "Excelente ambiente laboral, ven a trabajar como programador", "Junior", "saber java", "actualizar el backend", 300000, 7, "2021-09-27", "09:00", "20:00", 1, true), (2, "3 años", "Excelente aprendizaje, ven a trabajar como devops", "Junior", "saber GCP", "subir a producción", 300000, 7, "2021-09-27", "09:00", "20:00", 1, true);
+INSERT INTO job_offers (id, contract_period, description_offer, position, requirements, responsabilities, salary, vacancy_numbers, valid_date, init_working_day_time, end_working_day_time, id_business, enabled) VALUES (1, "2 años", "Excelente ambiente laboral, ven a trabajar como programador", "Junior", "saber java", "Programador backend", 300000, 7, "2021-09-27", "09:00", "20:00", 1, true), (2, "3 años", "Excelente aprendizaje, ven a trabajar como programador", "Junior", "saber React", "Programador frontend", 300000, 7, "2021-09-27", "09:00", "20:00", 1, true);
 
 INSERT INTO postulate (id_job_offer, id_postulant) VALUES (1, 1);
 INSERT INTO postulate (id_job_offer, id_postulant) VALUES (1, 2);

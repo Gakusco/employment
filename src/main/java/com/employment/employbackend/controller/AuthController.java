@@ -38,9 +38,9 @@ import com.employment.employbackend.model.Credential;
 import com.employment.employbackend.model.Postulant;
 import com.employment.employbackend.model.Role;
 import com.employment.employbackend.service.CredentialService;
-import com.employment.employbackend.service.UploadFileService;
 import com.employment.employbackend.service.PostulantService;
 import com.employment.employbackend.service.RoleService;
+import com.employment.employbackend.service.UploadFileService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -96,11 +96,13 @@ public class AuthController {
 			List<String> errors = new ArrayList<>();
 			errors.add("Debe subir un archivo");
 			response.put("error", errors);
+			log.error("Debe subir un archivo");
 			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 		}
 		try {
 			fileUploadFileService.saveFile(file);
 		} catch (Exception e) {
+			log.error("No se ha podido guardar el archivo: " + e.getMessage());
 			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 		}
 		return new ResponseEntity<>(HttpStatus.OK);
